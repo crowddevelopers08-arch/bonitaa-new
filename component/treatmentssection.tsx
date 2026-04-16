@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useRef, useState } from "react";
+import { memo } from "react";
 import { Reveal } from "../component/animation";
 import WalkthroughButton from "./buttoncomponent";
 
@@ -10,20 +10,14 @@ const treatments = [
     title: "Anti-Dandruff Treatment",
     desc: "Eliminate dandruff flakes and soothe irritation for a healthier, itch-free scalp.",
     tag: "Scalp Care",
-    imgs: [
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80",
-      "https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=500&q=80",
-    ],
+    img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80",
   },
   {
     num: "02",
     title: "Mesotherapy",
     desc: "Stimulate hair growth, thicken strands, and improve scalp health with a convenient lunchtime procedure.",
     tag: "Non-Invasive",
-    imgs: [
-      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500&q=80",
-      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=500&q=80",
-    ],
+    img: "/woman-cosmetology.avif",
   },
   {
     num: "03",
@@ -31,102 +25,35 @@ const treatments = [
     desc: "Invest in a permanent, hassle-free solution for hair loss with minimal scarring and a high success rate.",
     tag: "Permanent",
     featured: true,
-    imgs: ["/caucasian-man.avif", "/bold-man-going.jpg"],
+    img: "/caucasian-man.avif",
   },
   {
     num: "04",
     title: "GFC Treatment",
     desc: "Utilize innovative Growth Factor Concentrate technology to promote hair growth and achieve natural-looking results.",
     tag: "Advanced",
-    imgs: [
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80",
-      "https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=500&q=80",
-    ],
+    img: "/Growth-Factor-Concentrate-3.webp",
   },
   {
     num: "05",
     title: "Beard & Mustache Transplant",
     desc: "Achieve your desired facial hair density and shape with a permanent hair transplant solution.",
     tag: "Facial",
-    imgs: ["/beard.jpg", "/beard1.jpg"],
+    img: "/beard.jpg",
   },
   {
     num: "06",
-    title: "Female Eyebrow Transplant",
-    desc: "Create beautiful, natural-looking eyebrows for a more defined and youthful appearance.",
+    title: "Exosome Hair Boost",
+    desc: "Reduces hair fall by supporting weak follicles with advanced exosome therapy. Helps improve thickness and encourages healthier hair regrowth over time.",
     tag: "Aesthetic",
-    imgs: [
-      "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=500&q=80",
-      "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=80",
-    ],
+    img: "/woman-getting.jpg",
   },
 ];
 
-const SCAN_DURATION = 3000;
-const SCAN_GAP = 1800;
-
 function TreatmentCardInner({ t }: { t: (typeof treatments)[number] }) {
-  const [baseIdx, setBaseIdx] = useState(0);
-  const [scanning, setScanning] = useState(false);
-  const [scanKey, setScanKey] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const nextIdx = (baseIdx + 1) % t.imgs.length;
-
-  useEffect(() => {
-    const node = cardRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.25,
-        rootMargin: "120px 0px",
-      }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible || t.imgs.length < 2) {
-      return;
-    }
-
-    let active = true;
-    let scanTimeout: ReturnType<typeof setTimeout> | null = null;
-
-    const cycle = () => {
-      if (!active) return;
-
-      setScanKey((key) => key + 1);
-      setScanning(true);
-
-      scanTimeout = setTimeout(() => {
-        if (!active) return;
-
-        setBaseIdx((prev) => (prev + 1) % t.imgs.length);
-        setScanning(false);
-      }, SCAN_DURATION);
-    };
-
-    const intervalId = setInterval(cycle, SCAN_DURATION + SCAN_GAP);
-
-    return () => {
-      active = false;
-      clearInterval(intervalId);
-      if (scanTimeout) clearTimeout(scanTimeout);
-      setScanning(false);
-    };
-  }, [isVisible, t.imgs.length]);
-
   return (
-    <div id="our-services"
-      ref={cardRef}
+    <div
+      id="our-services"
       className="t-card rounded-2xl h-full"
       style={{
         background: "rgba(221,185,90,0.04)",
@@ -143,28 +70,13 @@ function TreatmentCardInner({ t }: { t: (typeof treatments)[number] }) {
         style={{ height: "clamp(160px,18vw,210px)" }}
       >
         <img
-          src={t.imgs[baseIdx]}
+          src={t.img}
           alt={t.title}
           className="t-img absolute inset-0 h-full w-full object-cover"
           loading="lazy"
           decoding="async"
           style={{ filter: "brightness(0.78) contrast(1.08) saturate(0.85)" }}
         />
-
-        {scanning && (
-          <img
-            key={scanKey}
-            src={t.imgs[nextIdx]}
-            alt={t.title}
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="lazy"
-            decoding="async"
-            style={{
-              filter: "brightness(0.78) contrast(1.08) saturate(0.85)",
-              animation: `imgReveal ${SCAN_DURATION}ms linear forwards`,
-            }}
-          />
-        )}
 
         <div
           className="absolute inset-0 pointer-events-none z-10"
@@ -173,8 +85,6 @@ function TreatmentCardInner({ t }: { t: (typeof treatments)[number] }) {
               "linear-gradient(to top,rgba(8,11,18,0.85) 0%,rgba(8,11,18,0.1) 60%)",
           }}
         />
-
-        {scanning && <div key={`scan-${scanKey}`} className="scan-bar z-20" />}
 
         <div className="absolute top-3 right-3 z-30">
           <span
@@ -298,20 +208,8 @@ export default function TreatmentsSection() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,600&family=Outfit:wght@300;400;500;600&display=swap');
         @keyframes glowPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
         @keyframes shimmer { from{transform:translateX(-100%)} to{transform:translateX(100%)} }
-        @keyframes scanLine { 0%{top:-2%;opacity:0} 6%{opacity:1} 90%{top:102%;opacity:1} 100%{top:102%;opacity:0} }
-        @keyframes imgReveal { 0%{clip-path:inset(0 0 100% 0)} 100%{clip-path:inset(0 0 0 0)} }
 
         .glow-dot { animation: glowPulse 2s ease-in-out infinite; }
-        .scan-bar {
-          position:absolute;
-          left:0;
-          right:0;
-          height:2px;
-          background:linear-gradient(90deg,transparent,rgba(221,185,90,0.9),transparent);
-          box-shadow: 0 0 8px rgba(221,185,90,0.6);
-          animation: scanLine 3s linear forwards;
-          pointer-events:none;
-        }
         .t-card { transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease; cursor:pointer; overflow:hidden; }
         .t-card:hover { transform:translateY(-6px); border-color:rgba(221,185,90,0.5)!important; box-shadow:0 24px 60px rgba(0,0,0,0.6),0 0 40px rgba(221,185,90,0.12)!important; }
         .t-card:hover .t-img { transform:scale(1.07); }

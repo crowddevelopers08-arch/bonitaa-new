@@ -14,16 +14,11 @@ const links = {
     { label: "Services",    href: "#services" },
     { label: "FAQ",     href: "#faq" },
     { label: "Reviews",     href: "#reviews" },
-    { label: "Contact Us",  href: "#contact" },
   ],
   legal: [
     { label: "Privacy Policy",    href: "/privacy-policy" },
   ],
 };
-
-const branches = ["Coimbatore", "Chennai", "Trichy", "Madurai", "Salem", "Erode"];
-
-
 
 export default function Footer() {
   return (
@@ -125,7 +120,7 @@ export default function Footer() {
                     </svg>
                   ))}
                 </div>
-                <span style={{ color:"rgba(240,232,213,0.45)", fontSize:14 }}>4.9 / 5.0 Google Rating</span>
+                <span style={{ color:"rgba(240,232,213,0.45)", fontSize:14 }}>4.8 / 5.0 Google Rating</span>
               </div>
             </div>
 
@@ -171,7 +166,7 @@ export default function Footer() {
               <div className="flex flex-col gap-3 mb-6 text-sm">
                 {[
                   { icon:"M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z", val:"+91 9363707090" },
-                  { icon:"M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z", val:" 249, 250, 9th St Ext, Gandhipuram, Coimbatore, Tamil Nadu 641012" },
+                  // { icon:"M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z", val:" 249, 250, 9th St Ext, Gandhipuram, Coimbatore, Tamil Nadu 641012" },
                 ].map((c, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -183,16 +178,6 @@ export default function Footer() {
                     </div>
                     <span style={{ color:"rgba(240,232,213,0.45)", fontSize:14, lineHeight:1.5 }}>{c.val}</span>
                   </div>
-                ))}
-              </div>
-
-              {/* Branches */}
-              <h4 className="font-bold mb-3" style={{ color:"rgba(240,232,213,0.75)", fontSize:15, letterSpacing:"0.1em", textTransform:"uppercase" }}>
-                Our Branches
-              </h4>
-              <div className="flex flex-wrap gap-2 text-sm">
-                {branches.map((b, i) => (
-                  <span key={i} className="branch-chip">{b}</span>
                 ))}
               </div>
             </div>
