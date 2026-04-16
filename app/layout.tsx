@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import Script from "next/script"; // ✅ add this
 import "./globals.css";
 import DarkBackground from "@/component/bg";
 import ChatWidget from "@/component/chatbox";
@@ -28,12 +29,27 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={`${outfit.variable} antialiased`}>
+
+        {/* ✅ Google Ads Tag */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16555631657"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-16555631657');
+          `}
+        </Script>
+
         <DarkBackground />
         <ChatWidget />
         {children}
